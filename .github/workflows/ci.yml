@@ -31,9 +31,9 @@ jobs:
         working-directory: backend
         run: ruff check app/
 
-      # - name: Run Mypy
-      #   working-directory: backend
-      #   run: mypy app/
+      - name: Run Mypy
+        working-directory: backend
+        run: mypy app/
 
   backend-test:
     runs-on: ubuntu-latest

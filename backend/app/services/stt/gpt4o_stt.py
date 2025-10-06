@@ -51,7 +51,7 @@ class GPT4oSTT(STTStrategy):
                 # GPT-4o Transcriptionを実行
                 # response_format="json"の場合、timestamp_granularitiesは使えない
                 response = await self.client.audio.transcriptions.create(
-                    model="gpt-4o-transcribe",
+                    model=settings.gpt4o_transcribe_model,
                     file=audio_file,
                     language=self.language if self.language != "auto" else None,
                     response_format="json",

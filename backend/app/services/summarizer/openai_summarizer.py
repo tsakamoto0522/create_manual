@@ -63,7 +63,7 @@ class OpenAISummarizer(SummarizerStrategy):
                     },
                 ],
                 temperature=0.3,
-                max_tokens=2000,
+                max_completion_tokens=settings.openai_max_completion_tokens,
             )
 
             summary = response.choices[0].message.content

@@ -4,6 +4,8 @@ __pycache__/
 *.so
 venv/
 .env
+*.env
+!.env.example
 
 # Node
 node_modules/
@@ -22,3 +24,7 @@ data/
 # Temporary
 *.tmp
 *.zip
+
+# OS
+.DS_Store
+Thumbs.db

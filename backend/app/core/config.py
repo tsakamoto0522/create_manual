@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     port: int = Field(default=8000)
     debug: bool = Field(default=False)
 
+    # CORS
+    cors_origins: str = Field(default="http://localhost:5173,http://localhost:3000")
+
     # Storage
     data_dir: Path = Field(default=Path("./data"))
     upload_dir: Path = Field(default=Path("./data/uploads"))
@@ -52,7 +55,11 @@ class Settings(BaseSettings):
 
     # OpenAI API
     openai_api_key: str = Field(default="")
-    openai_model: str = Field(default="gpt-5")
+    openai_model: str = Field(default="gpt-4o")
+    openai_max_completion_tokens: int = Field(default=2000)
+
+    # GPT-4o Transcribe
+    gpt4o_transcribe_model: str = Field(default="gpt-4o-transcribe")
 
     # Logging
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = Field(default="INFO")
@@ -61,6 +68,10 @@ class Settings(BaseSettings):
     def get_video_extensions(self) -> list[str]:
         """許可される動画拡張子リストを取得"""
         return [ext.strip().lower() for ext in self.allowed_video_extensions.split(",")]
+
+    def get_cors_origins(self) -> list[str]:
+        """CORS許可オリジンリストを取得"""
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
     def ensure_directories(self) -> None:
         """必要なディレクトリを作成"""

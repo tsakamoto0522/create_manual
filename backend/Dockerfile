@@ -13,9 +13,6 @@ RUN apt-get update && apt-get install -y \
 COPY pyproject.toml ./
 RUN pip install --no-cache-dir -e .[all]
 
-# OpenAI SDKを追加インストール
-RUN pip install --no-cache-dir openai
-
 # アプリケーションコードをコピー
 COPY app ./app
 

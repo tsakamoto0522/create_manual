@@ -82,12 +82,28 @@ async def transcribe_video(video_id: str) -> ProcessStatusResponse:
             output_path=str(output_path),
         )
 
-    except Exception as e:
-        logger.error(f"Transcription failed: {e}")
+    except FileNotFoundError as e:
+        logger.error(f"File not found during transcription: {e}")
         return ProcessStatusResponse(
             video_id=video_id,
             status="failed",
-            message=str(e),
+            message=f"ファイルが見つかりません: {e}",
+            output_path=None,
+        )
+    except ValueError as e:
+        logger.error(f"Invalid configuration: {e}")
+        return ProcessStatusResponse(
+            video_id=video_id,
+            status="failed",
+            message=f"設定エラー: {e}",
+            output_path=None,
+        )
+    except Exception as e:
+        logger.error(f"Transcription failed: {e}", exc_info=True)
+        return ProcessStatusResponse(
+            video_id=video_id,
+            status="failed",
+            message=f"文字起こしに失敗しました: {str(e)}",
             output_path=None,
         )
 
@@ -135,12 +151,20 @@ async def detect_scenes(video_id: str) -> ProcessStatusResponse:
             output_path=str(output_path),
         )
 
-    except Exception as e:
-        logger.error(f"Scene detection failed: {e}")
+    except FileNotFoundError as e:
+        logger.error(f"File not found during scene detection: {e}")
         return ProcessStatusResponse(
             video_id=video_id,
             status="failed",
-            message=str(e),
+            message=f"ファイルが見つかりません: {e}",
+            output_path=None,
+        )
+    except Exception as e:
+        logger.error(f"Scene detection failed: {e}", exc_info=True)
+        return ProcessStatusResponse(
+            video_id=video_id,
+            status="failed",
+            message=f"シーン検出に失敗しました: {str(e)}",
             output_path=None,
         )
 
