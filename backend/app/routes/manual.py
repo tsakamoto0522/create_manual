@@ -2,7 +2,6 @@
 Manual planning and editing endpoints.
 """
 
-
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 

@@ -2,7 +2,6 @@
 Manual planning logic - merging transcription segments with scene changes.
 """
 
-
 from app.core import logger, settings
 from app.models import ManualPlan, ManualStep, SceneDetectionResult, Transcription
 

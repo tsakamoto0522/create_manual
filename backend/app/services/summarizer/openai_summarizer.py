@@ -2,7 +2,6 @@
 OpenAI GPT-based text summarization.
 """
 
-
 from openai import AsyncOpenAI
 
 from app.core import logger, settings

@@ -2,7 +2,6 @@
 Video processing endpoints (STT, scene detection).
 """
 
-
 from fastapi import APIRouter, HTTPException
 
 from app.core import logger, settings
