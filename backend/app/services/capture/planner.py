@@ -2,7 +2,6 @@
 Manual planning logic - merging transcription segments with scene changes.
 """
 
-from typing import Optional
 
 from app.core import logger, settings
 from app.models import ManualPlan, ManualStep, SceneDetectionResult, Transcription
@@ -13,8 +12,8 @@ class ManualPlanner:
 
     def __init__(
         self,
-        auto_merge_threshold: Optional[float] = None,
-        min_step_duration: Optional[float] = None,
+        auto_merge_threshold: float | None = None,
+        min_step_duration: float | None = None,
     ):
         """
         Initialize manual planner.
@@ -30,7 +29,7 @@ class ManualPlanner:
         self,
         transcription: Transcription,
         scene_result: SceneDetectionResult,
-        manual_title: Optional[str] = None,
+        manual_title: str | None = None,
     ) -> ManualPlan:
         """
         Create manual plan by merging transcription and scene detection.
@@ -50,7 +49,7 @@ class ManualPlanner:
 
         # ステップを生成
         steps: list[ManualStep] = []
-        current_step: Optional[dict] = None
+        current_step: dict | None = None
 
         for i, segment in enumerate(transcription.segments):
             # シーン切替がこのセグメント内にあるか確認
@@ -123,7 +122,7 @@ class ManualPlanner:
 
     def _find_matching_image(
         self, start: float, end: float, scene_result: SceneDetectionResult
-    ) -> Optional[str]:
+    ) -> str | None:
         """ステップの時間範囲に対応するキャプチャ画像を検索"""
         # ステップの中間時刻
         mid_time = (start + end) / 2

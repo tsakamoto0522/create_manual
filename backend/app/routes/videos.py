@@ -5,11 +5,10 @@ Video upload and management endpoints.
 import shutil
 import uuid
 from pathlib import Path
-from typing import Optional
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from app.core import ValidationError, logger, settings
+from app.core import logger, settings
 from app.models import VideoUploadResponse
 from app.utils import FFmpegWrapper
 

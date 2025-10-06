@@ -3,11 +3,8 @@ Pydantic models for API requests/responses and data schemas.
 """
 
 from datetime import datetime
-from pathlib import Path
-from typing import Optional
 
 from pydantic import BaseModel, Field
-
 
 # ============================================================================
 # Transcription Schemas (RQ-001)
@@ -19,7 +16,7 @@ class TranscriptionSegment(BaseModel):
 
     start: float = Field(description="開始時刻 (秒)")
     end: float = Field(description="終了時刻 (秒)")
-    speaker: Optional[str] = Field(default=None, description="話者ID (オプション)")
+    speaker: str | None = Field(default=None, description="話者ID (オプション)")
     text: str = Field(description="認識テキスト")
 
 
@@ -29,7 +26,7 @@ class Transcription(BaseModel):
     video_filename: str = Field(description="動画ファイル名")
     duration_sec: float = Field(description="動画の長さ (秒)")
     segments: list[TranscriptionSegment] = Field(description="認識セグメントリスト")
-    summary: Optional[str] = Field(default=None, description="GPTによる要約テキスト")
+    summary: str | None = Field(default=None, description="GPTによる要約テキスト")
 
 
 # ============================================================================
@@ -61,8 +58,8 @@ class ManualStep(BaseModel):
 
     title: str = Field(description="手順タイトル")
     narration: str = Field(description="ナレーション (セリフ)")
-    note: Optional[str] = Field(default=None, description="注意事項・メモ")
-    image: Optional[str] = Field(default=None, description="キャプチャ画像パス")
+    note: str | None = Field(default=None, description="注意事項・メモ")
+    image: str | None = Field(default=None, description="キャプチャ画像パス")
     start: float = Field(description="開始時刻 (秒)")
     end: float = Field(description="終了時刻 (秒)")
     selected: bool = Field(default=True, description="採用フラグ")
@@ -88,7 +85,7 @@ class VideoUploadResponse(BaseModel):
     video_id: str = Field(description="動画ID (UUID)")
     filename: str = Field(description="ファイル名")
     size_bytes: int = Field(description="ファイルサイズ")
-    duration_sec: Optional[float] = Field(default=None, description="動画の長さ")
+    duration_sec: float | None = Field(default=None, description="動画の長さ")
 
 
 class ProcessStatusResponse(BaseModel):
@@ -97,7 +94,7 @@ class ProcessStatusResponse(BaseModel):
     video_id: str = Field(description="動画ID")
     status: str = Field(description="ステータス (processing, completed, failed)")
     message: str = Field(description="ステータスメッセージ")
-    output_path: Optional[str] = Field(default=None, description="出力ファイルパス")
+    output_path: str | None = Field(default=None, description="出力ファイルパス")
 
 
 class CaptureSelectionRequest(BaseModel):
@@ -112,7 +109,7 @@ class ExportRequest(BaseModel):
 
     video_id: str = Field(description="動画ID")
     format: str = Field(default="markdown", description="出力形式 (markdown, pdf)")
-    template: Optional[str] = Field(default=None, description="テンプレート名")
+    template: str | None = Field(default=None, description="テンプレート名")
 
 
 class ExportResponse(BaseModel):

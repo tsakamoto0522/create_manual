@@ -2,8 +2,6 @@
 Manual planning and editing endpoints.
 """
 
-from pathlib import Path
-from typing import Optional
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -19,7 +17,7 @@ class CreatePlanRequest(BaseModel):
     """マニュアル計画作成リクエスト"""
 
     video_id: str
-    title: Optional[str] = None
+    title: str | None = None
 
 
 @router.post("/plan", response_model=ManualPlan)

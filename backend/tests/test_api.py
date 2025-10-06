@@ -2,7 +2,6 @@
 Basic API tests for Video Manual Generator
 """
 
-import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app

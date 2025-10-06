@@ -2,8 +2,6 @@
 Video processing endpoints (STT, scene detection).
 """
 
-import json
-from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 

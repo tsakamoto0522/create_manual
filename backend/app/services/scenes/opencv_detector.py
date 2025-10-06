@@ -4,7 +4,6 @@ OpenCV-based scene detection implementation.
 
 import asyncio
 from pathlib import Path
-from typing import Optional
 
 import cv2
 import numpy as np
@@ -21,9 +20,9 @@ class OpenCVSceneDetector(SceneDetectionStrategy):
 
     def __init__(
         self,
-        threshold: Optional[float] = None,
-        min_scene_duration: Optional[float] = None,
-        method: Optional[str] = None,
+        threshold: float | None = None,
+        min_scene_duration: float | None = None,
+        method: str | None = None,
     ):
         """
         Initialize OpenCV scene detector.
@@ -65,7 +64,7 @@ class OpenCVSceneDetector(SceneDetectionStrategy):
         min_frames = int(self.min_scene_duration * fps)
 
         scenes: list[SceneInfo] = []
-        prev_frame: Optional[np.ndarray] = None
+        prev_frame: np.ndarray | None = None
         frame_idx = 0
         last_scene_frame = 0
 

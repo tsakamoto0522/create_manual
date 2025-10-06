@@ -2,9 +2,7 @@
 GPT-4o Audio Transcription implementation.
 """
 
-import asyncio
 from pathlib import Path
-from typing import Optional
 
 from openai import AsyncOpenAI
 
@@ -20,8 +18,8 @@ class GPT4oSTT(STTStrategy):
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
-        language: Optional[str] = None,
+        api_key: str | None = None,
+        language: str | None = None,
     ):
         """
         Initialize GPT-4o STT.

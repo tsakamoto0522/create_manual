@@ -2,11 +2,9 @@
 Template rendering service using Jinja2.
 """
 
-from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
-from jinja2 import Environment, FileSystemLoader, Template, TemplateNotFound
+from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 
 from app.core import TemplateError, logger, settings
 from app.models import ManualPlan
@@ -15,7 +13,7 @@ from app.models import ManualPlan
 class TemplateRenderer:
     """Jinja2テンプレートレンダラー"""
 
-    def __init__(self, template_dir: Optional[Path] = None):
+    def __init__(self, template_dir: Path | None = None):
         """
         Initialize template renderer.
 
@@ -33,8 +31,8 @@ class TemplateRenderer:
     async def render(
         self,
         plan: ManualPlan,
-        template_name: Optional[str] = None,
-        output_path: Optional[Path] = None,
+        template_name: str | None = None,
+        output_path: Path | None = None,
     ) -> str:
         """
         Render manual plan to Markdown.

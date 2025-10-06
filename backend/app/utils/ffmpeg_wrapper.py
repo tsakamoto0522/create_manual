@@ -4,7 +4,6 @@ FFmpeg wrapper utilities for video processing.
 
 import subprocess
 from pathlib import Path
-from typing import Optional
 
 from app.core import VideoProcessingError, logger
 
@@ -86,7 +85,7 @@ class FFmpegWrapper:
 
     @staticmethod
     def extract_frame(
-        video_path: Path, timestamp: float, output_path: Path, width: Optional[int] = 1280
+        video_path: Path, timestamp: float, output_path: Path, width: int | None = 1280
     ) -> Path:
         """
         Extract a single frame at specified timestamp.

@@ -2,8 +2,6 @@
 OpenAI GPT-based text summarization.
 """
 
-import asyncio
-from typing import Optional
 
 from openai import AsyncOpenAI
 
@@ -15,7 +13,7 @@ from .base import SummarizerStrategy
 class OpenAISummarizer(SummarizerStrategy):
     """OpenAI GPTを使用したテキスト要約"""
 
-    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
+    def __init__(self, api_key: str | None = None, model: str | None = None):
         """
         Initialize OpenAI Summarizer.
 

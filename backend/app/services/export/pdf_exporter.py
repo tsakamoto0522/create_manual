@@ -4,7 +4,6 @@ PDF export service.
 
 import asyncio
 from pathlib import Path
-from typing import Optional
 
 from app.core import ExportError, logger, settings
 
@@ -12,7 +11,7 @@ from app.core import ExportError, logger, settings
 class PDFExporter:
     """PDF エクスポーター"""
 
-    def __init__(self, engine: Optional[str] = None):
+    def __init__(self, engine: str | None = None):
         """
         Initialize PDF exporter.
 
@@ -44,10 +43,11 @@ class PDFExporter:
     async def _convert_with_playwright(self, markdown_path: Path, output_path: Path) -> Path:
         """Playwright を使用して PDF に変換"""
         try:
-            from playwright.async_api import async_playwright
-            import markdown
             import base64
             import re
+
+            import markdown
+            from playwright.async_api import async_playwright
 
             # Markdown を HTML に変換
             md_content = markdown_path.read_text(encoding="utf-8")
@@ -164,9 +164,9 @@ class PDFExporter:
             logger.info(f"PDF generated with Playwright: {output_path}")
             return output_path
 
-        except ImportError as e:
+        except ImportError:
             raise ExportError(
-                f"Playwright not installed. Run: pip install playwright && playwright install"
+                "Playwright not installed. Run: pip install playwright && playwright install"
             )
         except Exception as e:
             logger.error(f"Playwright PDF export failed: {e}")

@@ -4,7 +4,6 @@ Whisper-based STT implementation.
 
 import asyncio
 from pathlib import Path
-from typing import Optional
 
 import whisper
 
@@ -20,9 +19,9 @@ class WhisperSTT(STTStrategy):
 
     def __init__(
         self,
-        model_name: Optional[str] = None,
-        device: Optional[str] = None,
-        language: Optional[str] = None,
+        model_name: str | None = None,
+        device: str | None = None,
+        language: str | None = None,
     ):
         """
         Initialize Whisper STT.
@@ -35,7 +34,7 @@ class WhisperSTT(STTStrategy):
         self.model_name = model_name or settings.whisper_model
         self.device = device or settings.whisper_device
         self.language = language or settings.whisper_language
-        self.model: Optional[whisper.Whisper] = None
+        self.model: whisper.Whisper | None = None
         self.ffmpeg = FFmpegWrapper()
 
     def _load_model(self) -> whisper.Whisper:
