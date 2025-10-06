@@ -18,21 +18,21 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        working-directory: ./backend
+        working-directory: backend
         run: |
           python -m pip install --upgrade pip
           pip install black ruff mypy
 
       - name: Run Black
-        working-directory: ./backend
+        working-directory: backend
         run: black --check app/
 
       - name: Run Ruff
-        working-directory: ./backend
+        working-directory: backend
         run: ruff check app/
 
       # - name: Run Mypy
-      #   working-directory: ./backend
+      #   working-directory: backend
       #   run: mypy app/
 
   backend-test:
@@ -51,13 +51,13 @@ jobs:
           sudo apt-get install -y ffmpeg
 
       - name: Install Python dependencies
-        working-directory: ./backend
+        working-directory: backend
         run: |
           python -m pip install --upgrade pip
           pip install -e .[test]
 
       - name: Run tests
-        working-directory: ./backend
+        working-directory: backend
         run: pytest tests/ -v
 
   frontend-lint:
