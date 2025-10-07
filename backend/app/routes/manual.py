@@ -82,7 +82,7 @@ async def apply_capture_selection(request: CaptureSelectionRequest) -> ManualPla
     if not plan_path.exists():
         raise HTTPException(status_code=404, detail="マニュアル計画が見つかりません")
 
-    plan = ManualPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
+    plan: ManualPlan = ManualPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
 
     # 選択を適用
     for step_index, selected in request.selections.items():
@@ -112,7 +112,8 @@ async def get_manual_plan(video_id: str) -> ManualPlan:
     if not plan_path.exists():
         raise HTTPException(status_code=404, detail="マニュアル計画が見つかりません")
 
-    return ManualPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
+    manual_plan: ManualPlan = ManualPlan.model_validate_json(plan_path.read_text(encoding="utf-8"))
+    return manual_plan
 
 
 @router.put("/plan/{video_id}", response_model=ManualPlan)

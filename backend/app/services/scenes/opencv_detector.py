@@ -168,7 +168,7 @@ class OpenCVSceneDetector(SceneDetectionStrategy):
         correlation = cv2.compareHist(hist1, hist2, cv2.HISTCMP_CORREL)
 
         # 差分に変換 (0-100、100が最も異なる)
-        diff = (1.0 - correlation) * 100
+        diff: float = (1.0 - correlation) * 100
         return diff
 
     def _ssim_diff(self, frame1: np.ndarray, frame2: np.ndarray) -> float:

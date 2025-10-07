@@ -62,7 +62,7 @@ class TemplateRenderer:
         }
 
         # レンダリング
-        content = template.render(**context)
+        content: str = template.render(**context)
 
         # 保存 (オプション)
         if output_path:

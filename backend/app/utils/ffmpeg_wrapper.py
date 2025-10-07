@@ -2,8 +2,10 @@
 FFmpeg wrapper utilities for video processing.
 """
 
+import json
 import subprocess
 from pathlib import Path
+from typing import Any
 
 from app.core import VideoProcessingError, logger
 
@@ -127,7 +129,7 @@ class FFmpegWrapper:
             raise VideoProcessingError(f"フレーム抽出に失敗しました: {e}")
 
     @staticmethod
-    def get_video_info(video_path: Path) -> dict[str, any]:
+    def get_video_info(video_path: Path) -> dict[str, Any]:
         """
         Get comprehensive video information.
 
@@ -149,9 +151,8 @@ class FFmpegWrapper:
                 str(video_path),
             ]
             result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=30)
-            import json
-
-            return json.loads(result.stdout)
+            info: dict[str, Any] = json.loads(result.stdout)
+            return info
         except Exception as e:
             logger.error(f"Failed to get video info: {e}")
             raise VideoProcessingError(f"動画情報の取得に失敗しました: {e}")

@@ -184,7 +184,10 @@ async def get_transcription(video_id: str) -> Transcription:
     if not transcription_path.exists():
         raise HTTPException(status_code=404, detail="文字起こし結果が見つかりません")
 
-    return Transcription.model_validate_json(transcription_path.read_text(encoding="utf-8"))
+    transcription: Transcription = Transcription.model_validate_json(
+        transcription_path.read_text(encoding="utf-8")
+    )
+    return transcription
 
 
 @router.get("/scene-detect/{video_id}", response_model=SceneDetectionResult)
@@ -202,4 +205,7 @@ async def get_scenes(video_id: str) -> SceneDetectionResult:
     if not scenes_path.exists():
         raise HTTPException(status_code=404, detail="シーン検出結果が見つかりません")
 
-    return SceneDetectionResult.model_validate_json(scenes_path.read_text(encoding="utf-8"))
+    scenes: SceneDetectionResult = SceneDetectionResult.model_validate_json(
+        scenes_path.read_text(encoding="utf-8")
+    )
+    return scenes

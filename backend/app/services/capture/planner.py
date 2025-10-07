@@ -76,8 +76,9 @@ class ManualPlanner:
                 }
             else:
                 # 既存のステップに追加
-                current_step["end"] = segment.end
-                current_step["texts"].append(segment.text)
+                if current_step is not None:
+                    current_step["end"] = segment.end
+                    current_step["texts"].append(segment.text)
 
         # 最後のステップを追加
         if current_step is not None:
