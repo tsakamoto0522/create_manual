@@ -12,8 +12,8 @@ Video Manual Generator は、操作説明動画から自動的にステップバ
 
 ### 主要機能
 
-- ✅ **音声認識 (STT)**: 動画のセリフをテキスト化し、タイムスタンプ付きで記録
-- ✅ **GPT-5要約**: 文字起こしテキストをGPT-5で自動要約
+- ✅ **音声認識 (STT)**: GPT-4o Transcribe で高精度な文字起こし、タイムスタンプ付きで記録
+- ✅ **AI要約**: GPT-5 で文字起こしテキストを自動要約
 - ✅ **シーン検出**: 画面が切り替わるタイミングで自動キャプチャを取得
 - ✅ **キャプチャ選択**: 取得したキャプチャをユーザーが選択・編集
 - ✅ **テンプレート適用**: Markdown/PDF 形式でマニュアルを出力
@@ -30,8 +30,8 @@ Video Manual Generator は、操作説明動画から自動的にステップバ
                     ┌────────┴────────┐
                     │                 │
               ┌─────▼─────┐   ┌──────▼──────┐
-              │ Whisper   │   │   OpenCV    │
-              │   STT     │   │Scene Detect │
+              │  GPT-4o   │   │   OpenCV    │
+              │Transcribe │   │Scene Detect │
               └─────┬─────┘   └─────────────┘
                     │
               ┌─────▼─────┐
@@ -112,7 +112,7 @@ docker compose version
 
 ```bash
 git clone <repository-url>
-cd 89_create_manual
+cd create_manual
 ```
 
 #### 2. 環境変数の設定
@@ -190,8 +190,8 @@ docker-compose logs -f frontend
 ### GUI での操作 (推奨)
 
 1. **動画アップロード**: http://localhost:5173 にアクセスし、動画をアップロード
-2. **自動解析**: 音声認識とシーン検出が自動実行される (数分かかる場合あり)
-3. **要約生成**: 文字起こし後、GPT-5が自動で要約を生成
+2. **自動解析**: GPT-4o Transcribe による音声認識とシーン検出が自動実行される (数分かかる場合あり)
+3. **要約生成**: 文字起こし後、GPT-5 が自動で要約を生成
 4. **キャプチャ選択**: 検出されたキャプチャを確認し、採用/除外を選択
 5. **エクスポート**: Markdown または PDF 形式でダウンロード
 
@@ -265,7 +265,7 @@ curl -X POST http://localhost:8000/export/pdf \
 │   │   ├── routes/           # API ルート
 │   │   ├── services/         # ビジネスロジック
 │   │   │   ├── stt/          # 音声認識 (Whisper)
-│   │   │   ├── summarizer/   # GPT-5要約
+│   │   │   ├── summarizer/   # GPT-5 要約
 │   │   │   ├── scenes/       # シーン検出 (OpenCV)
 │   │   │   ├── capture/      # マニュアル計画
 │   │   │   ├── template/     # テンプレート描画
@@ -307,21 +307,29 @@ curl -X POST http://localhost:8000/export/pdf \
 | `HOST`                   | 0.0.0.0        | サーバーホスト                                 |
 | `PORT`                   | 8000           | サーバーポート                                 |
 | `DEBUG`                  | False          | デバッグモード                                 |
-| `STT_ENGINE`             | whisper        | STTエンジン (`whisper` / `dummy`)           |
+| `STT_ENGINE`             | gpt4o          | STTエンジン (`gpt4o` / `whisper` / `dummy`) |
 | `WHISPER_MODEL`          | base           | Whisperモデル (`tiny`/`base`/`small`/etc.)   |
 | `WHISPER_DEVICE`         | cpu            | 実行デバイス (`cpu` / `cuda`)                |
+| `GPT4O_TRANSCRIBE_MODEL` | gpt-4o-transcribe | GPT-4o文字起こしモデル                      |
 | `SCENE_THRESHOLD`        | 30.0           | シーン変化検出閾値 (0-100、大きいほど厳しい)        |
 | `SCENE_DETECTION_METHOD` | histogram      | 検出方法 (`histogram` / `ssim`)             |
 | `PDF_ENGINE`             | playwright     | PDF生成エンジン (`playwright` / `weasyprint`) |
-| `OPENAI_API_KEY`         | (必須)          | OpenAI APIキー                              |
-| `OPENAI_MODEL`           | gpt-5          | 使用するGPTモデル                             |
+| `OPENAI_API_KEY`         | (必須)          | OpenAI APIキー（GPT-4o STT・GPT-5要約に必要） |
+| `OPENAI_MODEL`           | gpt-5          | 要約用GPTモデル                              |
+| `OPENAI_MAX_COMPLETION_TOKENS` | 2000    | GPT要約の最大トークン数                        |
 
 ### チューニングポイント
 
+**シーン検出**
 - **シーン検出が多すぎる場合**: `SCENE_THRESHOLD` を大きくする (例: 50.0)
 - **シーン検出が少なすぎる場合**: `SCENE_THRESHOLD` を小さくする (例: 20.0)
-- **処理を高速化したい**: `WHISPER_MODEL=tiny` に変更 (精度は下がる)
-- **高精度な認識が必要**: `WHISPER_MODEL=small` または `medium` (処理時間増)
+
+**音声認識（STT）**
+- **高精度・日本語に強い**: `STT_ENGINE=gpt4o`（現在のデフォルト、APIキー必要）
+- **コスト削減・オフライン実行**: `STT_ENGINE=whisper`（ローカル実行、無料）
+  - 高速化: `WHISPER_MODEL=tiny` (精度は下がる)
+  - 高精度: `WHISPER_MODEL=small` または `medium` (処理時間増)
+- **開発・テスト用**: `STT_ENGINE=dummy`（固定のサンプルテキスト生成）
 
 ---
 
