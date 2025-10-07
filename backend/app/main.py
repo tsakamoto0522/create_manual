@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.core import VideoManualGeneratorError, logger, settings
+from app.routes import export, manual, process, videos
 
 
 @asynccontextmanager
@@ -82,8 +83,6 @@ async def health():
 app.mount("/data", StaticFiles(directory=str(settings.data_dir)), name="data")
 
 # ルートの登録
-from app.routes import export, manual, process, videos
-
 app.include_router(videos.router, prefix="/videos", tags=["videos"])
 app.include_router(process.router, prefix="/process", tags=["process"])
 app.include_router(manual.router, prefix="/manual", tags=["manual"])

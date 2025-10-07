@@ -25,8 +25,9 @@ export default function ReviewPage() {
         await manualApi.createPlan(videoId)
 
         setProcessing(false)
-      } catch (err: any) {
-        setError(err.response?.data?.detail || '処理に失敗しました')
+      } catch (err) {
+        const error = err as { response?: { data?: { detail?: string } } }
+        setError(error.response?.data?.detail || '処理に失敗しました')
         setProcessing(false)
       }
     }

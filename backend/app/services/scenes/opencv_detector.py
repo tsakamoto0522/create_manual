@@ -60,7 +60,6 @@ class OpenCVSceneDetector(SceneDetectionStrategy):
             raise SceneDetectionError(f"動画を開けませんでした: {video_path}")
 
         fps = cap.get(cv2.CAP_PROP_FPS)
-        frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         min_frames = int(self.min_scene_duration * fps)
 
         scenes: list[SceneInfo] = []

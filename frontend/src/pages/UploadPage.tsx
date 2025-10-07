@@ -29,8 +29,9 @@ export default function UploadPage() {
       const response = await videoApi.uploadVideo(file)
       // アップロード成功後、解析ページへ遷移
       navigate(`/review/${response.video_id}`)
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'アップロードに失敗しました')
+    } catch (err) {
+      const error = err as { response?: { data?: { detail?: string } } }
+      setError(error.response?.data?.detail || 'アップロードに失敗しました')
     } finally {
       setUploading(false)
     }
