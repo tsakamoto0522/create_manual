@@ -3,11 +3,11 @@ Dummy STT implementation for testing without Whisper.
 """
 
 import asyncio
+import subprocess
 from pathlib import Path
 
 from app.core import logger
 from app.models import Transcription, TranscriptionSegment
-from app.utils import FFmpegWrapper
 
 from .base import STTStrategy
 
@@ -20,14 +20,10 @@ class DummySTT(STTStrategy):
         logger.info(f"Dummy STT: Generating fake transcription for {video_filename}")
 
         # 動画の長さを取得
-        ffmpeg = FFmpegWrapper()
-        # 音声ファイルから動画パスを推測 (実際は別途渡すべき)
         duration = 60.0  # デフォルト値
 
         try:
             # 実際の長さを取得する場合
-            import subprocess
-
             cmd = [
                 "ffprobe",
                 "-v",

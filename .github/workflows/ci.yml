@@ -56,6 +56,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .[test]
 
+      - name: Create data directories
+        working-directory: backend
+        run: mkdir -p data/{uploads,captures,intermediate,exports}
+
       - name: Run tests
         working-directory: backend
         run: pytest tests/ -v
