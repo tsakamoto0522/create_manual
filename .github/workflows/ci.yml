@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Mypy
         working-directory: backend
-        run: mypy app/
+        run: mypy --explicit-package-bases app/
 
   backend-test:
     runs-on: ubuntu-latest
